@@ -1,0 +1,93 @@
+database commands
+
+CREATE SCHEMA Automation_Framework;
+drop table test_detail;
+drop table test_run_summary;
+drop table test_case_summary;
+drop table test_suite_summary;
+drop table test_exec_run_summary;
+
+CREATE TABLE `automation_framework`.`test_detail` 
+(
+`test_id` INT NOT NULL AUTO_INCREMENT,
+  
+`test_suite` VARCHAR(200) NOT NULL,
+  
+`test_case` VARCHAR(200) NOT NULL,
+ 
+`test_keyword` VARCHAR(200) NULL,
+ 
+`test_status` VARCHAR(200) NOT NULL,
+ 
+`test_runkey` VARCHAR(200) NOT NULL,
+`node_detail` VARCHAR(100) NOT NULL,
+`platform` VARCHAR(100) NOT NULL,
+`browser` VARCHAR(100) NOT NULL,
+  
+`created_by` VARCHAR(100) NOT NULL,
+ 
+`created_at` VARCHAR(100) NOT NULL,
+ 
+`modified_by` VARCHAR(100) NOT NULL,
+ 
+`modified_at` VARCHAR(100) NOT NULL,
+ 
+PRIMARY KEY (`test_id`)
+ )
+COMMENT = 'this is a test_detail table for framework - details for each keyword';
+
+
+CREATE TABLE `automation_framework`.`test_suite_summary` 
+( 
+`test_runid` VARCHAR(200) NOT NULL,
+`test_suite` VARCHAR(200) NOT NULL,
+`test_planned` INT NOT NULL,
+`test_passed` INT NOT NULL,
+`test_failed` INT NOT NULL,
+`test_skipped` INT NOT NULL,
+`test_exception` INT NOT NULL,
+`created_by` VARCHAR(100) NOT NULL,
+`created_at` VARCHAR(100) NOT NULL,
+`modified_by` VARCHAR(100) NOT NULL,
+`modified_at` VARCHAR(100) NOT NULL,
+PRIMARY KEY (`test_runid`, `test_suite`)
+ )
+COMMENT = 'this is a test suite summary table for framework';
+
+
+CREATE TABLE `automation_framework`.`test_case_summary` 
+(
+`test_summid` INT NOT NULL AUTO_INCREMENT,
+`test_runid` VARCHAR(200) NOT NULL,
+`test_suite` VARCHAR(200) NOT NULL,
+`test_case` VARCHAR(200) NOT NULL,
+`test_steps_planned` INT NOT NULL,
+`test_steps_passed` INT NOT NULL,
+`test_steps_failed` INT NOT NULL,
+`test_steps_skipped` INT NOT NULL,
+`test_steps_exception` INT NOT NULL,
+`created_by` VARCHAR(100) NOT NULL,
+`created_at` VARCHAR(100) NOT NULL,
+`modified_by` VARCHAR(100) NOT NULL,
+`modified_at` VARCHAR(100) NOT NULL,
+PRIMARY KEY (`test_summid`)
+ )
+COMMENT = 'this is a test case summary table for framework';
+
+
+CREATE TABLE `automation_framework`.`test_exec_run_summary` 
+(
+`test_runid` VARCHAR(200) NOT NULL,
+`test_planned` INT NOT NULL,
+`test_passed` INT NOT NULL,
+`test_failed` INT NOT NULL,
+`test_skipped` INT NOT NULL,
+`test_exception` INT NOT NULL,
+`test_run_path` VARCHAR(500) NULL,
+`created_by` VARCHAR(100) NOT NULL,
+`created_at` VARCHAR(100) NOT NULL,
+`modified_by` VARCHAR(100) NOT NULL,
+`modified_at` VARCHAR(100) NOT NULL,
+PRIMARY KEY (`test_runid`)
+ )
+COMMENT = 'this is a test execution run summary table for framework';
