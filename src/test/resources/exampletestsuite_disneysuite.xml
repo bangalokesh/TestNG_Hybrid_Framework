@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="3" name="exampletestsuite_disneysuite" parallel="classes">
+  <test name="Test1">
+    <classes>
+      <class name="com.deloitte.testng_hybrid_framework.exampletestsuite_disneysuite.Disney_BookAResort_Test"/>
+    </classes>
+  </test> <!-- Test1 -->
+</suite> <!-- exampletestsuite_disneysuite -->

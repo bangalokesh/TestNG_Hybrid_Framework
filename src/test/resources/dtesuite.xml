@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="dtesuite">
+  <test name="Test2">
+    <classes>
+      <class name="com.deloitte.testng_hybrid_framework.dtesuite.Calc_Test"/>
+    </classes>
+  </test> <!-- Test2 -->
+</suite> <!-- dtesuite -->

@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Master suite">
+  <suite-files>
+    <suite-file path="C:\Java_Programs - Copy\TestNG_Hybrid_Framework\src\test\resources\exampletestsuite_amazonsuite.xml"/>
+    <suite-file path="C:\Java_Programs - Copy\TestNG_Hybrid_Framework\src\test\resources\exampletestsuite_disneysuite.xml"/>
+  </suite-files>
+</suite> <!-- Master suite -->

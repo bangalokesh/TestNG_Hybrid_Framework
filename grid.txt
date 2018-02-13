@@ -1,0 +1,43 @@
+# -- Go to Project Directory
+
+
+c:\java_programs\flipkart_hybrid
+
+---------------------------------------------------------------------------
+
+Start Hub
+
+Option-1: java -jar jars/selenium-server-standalone-3.6.0.jar -role hub -hubConfig hub.json
+
+Option-2: java -jar jars/selenium-server-standalone-3.6.0.jar -role hub -hubConfig hub.json -host 192.168.15.1
+
+Option-3: java -jar jars/selenium-server-standalone-3.6.0.jar -role hub -hubConfig hub.json -host USLMALBANGA1
+
+Option-4: java -Dwebdriver.chrome.driver=C:\Softwares\Selenium\chromedriver.exe -jar jars/selenium-server-standalone-3.6.0.jar -role hub -hubConfig hub.json
+
+
+---------------------------------------------------------------------------
+
+Start Nodes
+
+Node 1 setup->
+java -Dwebdriver.chrome.driver=C:\Softwares\Selenium\chromedriver.exe -jar jars/selenium-server-standalone-3.6.0.jar -role node -nodeConfig node1.json
+
+
+Node 2 setup->
+java -Dwebdriver.gecko.driver=C:\Softwares\Selenium\geckodriver.exe -jar jars/selenium-server-standalone-3.6.0.jar -role node -nodeConfig node2.json
+
+
+Node 3 setup->
+
+java -Dwebdriver.chrome.driver=chromedriver.exe -jar selenium-server-standalone-3.6.0.jar -role node -nodeConfig node3.json
+
+
+
+
+
+
+
+
+
+
