@@ -477,19 +477,16 @@ public class Xls_Reader {
 		return true; 
 	}
 	public int getCellRowNum(String sheetName,String colName,String cellValue){
-		
 		for(int i=2;i<=getRowCount(sheetName);i++){
 	    	if(getCellData(sheetName,colName , i).equalsIgnoreCase(cellValue)){
 	    		return i;
 	    	}
 	    }
 		return -1;
-		
 	}
 		
 	// to run this on stand alone
 	public static void main(String arg[]) throws IOException{
-		
 		//System.out.println(filename);
 		Xls_Reader datatable = null;
 		

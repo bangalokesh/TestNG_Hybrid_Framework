@@ -1,8 +1,6 @@
 package com.deloitte.testng_hybrid_framework.mail;
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.Properties;
-
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
 import javax.activation.FileDataSource;
@@ -15,7 +13,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-
 import com.deloitte.testng_hybrid_framework.util.Constants;
  
 
@@ -24,24 +21,23 @@ public class SendMail{
 		//report folder - extent reports
 		//date
 		String reportFolder=Constants.REPORT_PATH;
-        FileFilterDateIntervalUtils filter = new FileFilterDateIntervalUtils("2010-01-04", "2050-01-20");
+        FileFilterDateIntervalUtils filter =
+        new FileFilterDateIntervalUtils("2010-01-04", "2050-01-20");
         File folder =  new File(reportFolder);
         File files[] = folder.listFiles(filter);
-        
-        //get last modified file
-        LastModifiedFilter l = new LastModifiedFilter();
-        File latesFile = l.getLatestFilefromDir(folder);
-        String fileName = latesFile.getName();
-        String extentFilePath=reportFolder+fileName;
+        //date
+         String fileName=files[files.length-1].getName();
+         String extentFilePath=reportFolder+fileName;
+       
          
          // mail extent reports
-                String[] to={"abc@deloitte.com","xyz@deloitte.com"};
+                String[] to={"abc@deloitte.com"};
                 String[] cc={};
                 String[] bcc={};
 
                 //This is for gmail
 
-                sendMail("xyz.deloitte.com",
+                sendMail("xyz@deloitte.com",
                 		            "Password",
                 		            "smtp.deloitte.com",
                 		            "587",
@@ -59,7 +55,7 @@ public class SendMail{
                 		            fileName);
                 
                 // mail the xslt reports
-                /*String xsltReportPath=reportFolder+"Reports.zip";
+                String xsltReportPath=reportFolder+"Reports.zip";
                 Zip.zipDir(System.getProperty("user.dir")+"//XSLT_Reports", xsltReportPath);
                 SendMail.sendMail(
                 		"xyz@deloitte.com",
@@ -77,7 +73,7 @@ public class SendMail{
     		            "Automation Test Reports - XSLT",
     		            "Please find the reports attached.\n\n Regards\nWebMaster",
     		            xsltReportPath,
-    		            "Reports.zip");*/
+    		            "Reports.zip");
     }
 
         public  static boolean sendMail(

@@ -4,12 +4,14 @@ package com.deloitte.testng_hybrid_framework.util;
 //http://relevantcodes.com/Tools/ExtentReports2/javadoc/index.html?com/relevantcodes/extentreports/ExtentReports.html
 
 import java.io.BufferedWriter;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
 
 import org.testng.annotations.Listeners;
 
+import com.deloitte.testng_hybrid_framework.BaseTest;
 import com.relevantcodes.extentreports.DisplayOrder;
 import com.relevantcodes.extentreports.ExtentReports;
 @Listeners(Listener.class)
@@ -17,13 +19,12 @@ import com.relevantcodes.extentreports.ExtentReports;
 public class ExtentManager {
 	private static ExtentReports extent;
 	static String RunName;
-	static String CreatedBy;
+	public static String CreatedBy;
 	static String ModifiedBy;
 
 	public static ExtentReports getInstance() {
 		if (extent == null) {
 			Date d=new Date();
-			//lokesh banga updated #10/08/2017
 			String fileName=d.toString().replace(":", "_").replace(" ", "_");
 			RunName ="Test_Execution_Run_No_" + fileName;
 			String filePath=Constants.REPORT_PATH + RunName + ".html";
@@ -51,6 +52,7 @@ public class ExtentManager {
 		}catch(IOException e){
 			e.printStackTrace();
 		}
+		
 	}
 	
 	public static String getRunName(){
@@ -63,6 +65,19 @@ public class ExtentManager {
 	
 	public static String getModifiedBy(){
 		return ModifiedBy;
+	}
+	
+	public static String getJSONName(String screenName){
+		String runName = ExtentManager.getRunName();
+		Date d=new Date();
+		String fileName=d.toString().replace(":", "_").replace(" ", "_");
+		String testname= BaseTest.testname;
+		String JSONName = runName + "_" + testname + "_" + screenName + "_" + fileName + "_";
+		return JSONName;
+	}
+	
+	public static ExtentReports getExtentReport(){
+		return extent;
 	}
 	
 	

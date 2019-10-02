@@ -1,12 +1,8 @@
 package com.deloitte.testng_hybrid_framework.util;
 
-import io.appium.java_client.android.AndroidDriver;
-import io.appium.java_client.android.AndroidElement;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.Date;
-
 import org.apache.commons.io.FileUtils;
 import org.apache.log4j.Logger;
 import org.openqa.selenium.OutputType;
@@ -18,7 +14,6 @@ import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
 import org.testng.Reporter;
-
 import com.relevantcodes.extentreports.ExtentTest;
 
 
@@ -26,7 +21,6 @@ public class Listener implements ITestListener, IInvokedMethodListener{
 	public static final String DRIVER_ATTRIBUTE = "driver";
 	private static final Logger logger = Logger.getLogger(Listener.class.getName());
 	private WebDriver driver;
-	private AndroidDriver<AndroidElement> adriver;
 	public ExtentTest test;
     //private static final String UTILS_KEY = "utils";
 	

@@ -7,8 +7,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
-
 import com.deloitte.testng_hybrid_framework.util.RetrunVal;
 
 public class dbConnect2 {
@@ -20,16 +18,12 @@ public class dbConnect2 {
 		String host = "localhost";
 		String port = "3306";
 		String databasename = "automation_framework";
+		String userid = "root";
+		String password = "root";
 
 		try {
-			Properties properties = new Properties();
-			properties.setProperty("user", "root");
-			properties.setProperty("password", "root");
-			properties.setProperty("useSSL", "false");
-			properties.setProperty("autoReconnect", "true");
-			
-			String db = "jdbc:mysql://" + host + ":" + port + "/" + databasename; 
-			con = DriverManager.getConnection(db, properties);
+			String db = "jdbc:mysql://" + host + ":" + port + "/" + databasename+ "?autoReconnect=true&useSSL=false"; 
+			con = DriverManager.getConnection(db, userid, password);
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -96,7 +90,7 @@ public class dbConnect2 {
 		s.executeUpdate(selInsert);
 	}
 	
-	public static void sqlInsertExecRunSummary(){
+	public static void main(String[] args){
 		Statement stmt = null;
 		Statement stmt1 = null;
 		String testsuiteq = null;
@@ -122,7 +116,7 @@ public class dbConnect2 {
 		    }
 		    stmt.close();
 		    List <String> runname2 = new ArrayList<String>();
-		    testsuiteq = "select distinct test_runid from test_suite_summary order by modified_at asc;";
+		    testsuiteq = "select distinct test_runid from test_run_summary order by modified_at asc;";
 		    stmt1 = con.createStatement();
 		    ResultSet testSuiteRS1 = stmt1.executeQuery(testsuiteq);
 		    while (testSuiteRS1.next()) {
@@ -147,7 +141,7 @@ public class dbConnect2 {
 		    int i =0;
 		    while (runname3.iterator().hasNext() && i<runname3.size()){
 		        		testrun1 = runname3.get(i);
-	        			String query = "select test_runid, sum(test_planned) AS Planned, sum(test_passed) AS Passed, sum(test_failed) AS Failed, sum(test_exception) AS Exception, sum(test_skipped) AS Skipped, created_by, created_at, modified_by, modified_at from test_suite_summary where test_runid = '" + testrun1 + "' order by modified_at desc;";
+	        			String query = "select test_runid, sum(test_planned) AS Planned, sum(test_passed) AS Passed, sum(test_failed) AS Failed, sum(test_exception) AS Exception, sum(test_skipped) AS Skipped, created_by, created_at, modified_by, modified_at from test_run_summary where test_runid = '" + testrun1 + "' order by modified_at desc;";
 	        			stmt1 = con.createStatement();
 	        			ResultSet testrunstmt = stmt1.executeQuery(query);
 	        			while(testrunstmt.next()){
@@ -160,14 +154,13 @@ public class dbConnect2 {
 	        				String createdat = testrunstmt.getString("created_at");
 	        				String modifiedby = testrunstmt.getString("modified_by");
 	        				String modifiedat = testrunstmt.getString("modified_at");
-	        				String testRunPath = null;
 	        				String insmodel = "INSERT INTO test_exec_run_summary (test_runid, test_planned, test_passed, test_failed, test_skipped, test_exception, created_by, created_at, modified_by, modified_at)\r\n" + 
 	        					"VALUES (";
 	        				String comma = ",";
 	        				String insmodel2 = ");";
-	        				String selInsert = insmodel+ "'" + testrun1 + "'" + comma + plannedCount + comma +
-	        				+ passCount + comma + failCount + comma + skipCount + comma + exceptionCount + comma +
-	        				"'" + createdby + "'" + comma + "'" + createdat + "'" + comma + "'" + modifiedby + "'" 
+	        				String selInsert = insmodel+ "'" + testrun1 + "'" + comma + plannedCount + comma 
+	        				+ passCount + comma + failCount + comma + skipCount + comma + exceptionCount + comma + "'" 
+	        				+ createdby + "'" + comma + "'" + createdat + "'" + comma + "'" + modifiedby + "'" 
 	        				+ comma + "'" + modifiedat + "'"+ insmodel2;
 	        				sqlinsert(selInsert);
 	        				i++;
@@ -180,7 +173,19 @@ public class dbConnect2 {
 		}
 	}
 	
-	public static void main(String[] args){
-		sqlInsertExecRunSummary();
+	public static Connection getCon() {
+			String host = "localhost";
+			String port = "3306";
+			String databasename = "automation_framework";
+			String userid = "root";
+			String password = "root";
+			try {
+				String db = "jdbc:mysql://" + host + ":" + port + "/" + databasename+ "?autoReconnect=true&useSSL=false"; 
+				con = DriverManager.getConnection(db, userid, password);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		return con;
 	}
 }	

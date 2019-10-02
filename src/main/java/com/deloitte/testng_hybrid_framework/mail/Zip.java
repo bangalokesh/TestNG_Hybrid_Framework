@@ -11,7 +11,7 @@ import org.testng.annotations.Listeners;
 import com.deloitte.testng_hybrid_framework.util.Listener;
 @Listeners(Listener.class)
 public class Zip {
-  public static void zipFolder (String src,String dst)throws Exception {
+  public static void zipFolder (String src,String dst) throws Exception {
 	  zipDir( src,  dst);
   }
 
