@@ -1,11 +1,14 @@
-database commands
+#database commands
 
-CREATE SCHEMA Automation_Framework;
-drop table test_detail;
-drop table test_run_summary;
-drop table test_case_summary;
-drop table test_suite_summary;
-drop table test_exec_run_summary;
+DROP SCHEMA IF EXISTS automation_framework;
+CREATE SCHEMA automation_framework;
+USE automation_framework;
+
+drop table if exists test_detail;
+drop table if exists test_run_summary;
+drop table if exists test_case_summary;
+drop table if exists test_suite_summary;
+drop table if exists test_exec_run_summary;
 
 CREATE TABLE `automation_framework`.`test_detail` 
 (
@@ -20,9 +23,9 @@ CREATE TABLE `automation_framework`.`test_detail`
 `test_status` VARCHAR(200) NOT NULL,
  
 `test_runkey` VARCHAR(200) NOT NULL,
-`node_detail` VARCHAR(100) NOT NULL,
-`platform` VARCHAR(100) NOT NULL,
-`browser` VARCHAR(100) NOT NULL,
+`node_detail` VARCHAR(100) NULL,
+`platform` VARCHAR(100) NULL,
+`browser` VARCHAR(100) NULL,
   
 `created_by` VARCHAR(100) NOT NULL,
  
@@ -91,3 +94,20 @@ CREATE TABLE `automation_framework`.`test_exec_run_summary`
 PRIMARY KEY (`test_runid`)
  )
 COMMENT = 'this is a test execution run summary table for framework';
+
+
+CREATE TABLE `automation_framework`.`server_details`
+(
+`serialNo` INT NOT NULL AUTO_INCREMENT,
+`test_runid` VARCHAR(200) NOT NULL,
+`test_case` VARCHAR(200) NOT NULL,
+`call_time` VARCHAR(100) NOT NULL,
+`server_name` VARCHAR(100) ,
+`CPU_load` VARCHAR(100) ,
+`Memory_load` VARCHAR(100) ,
+`CDrive_MemoryStatus` VARCHAR(100) ,
+`created_at` VARCHAR(100),
+`modified_at` VARCHAR(100),
+PRIMARY KEY (`serialNo`)
+ )
+COMMENT = 'this is a Server details table for framework used to save server statistics data';
