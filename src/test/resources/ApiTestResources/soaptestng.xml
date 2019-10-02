@@ -1,0 +1,7 @@
+<suite name="SoapScripts" verbose="1">
+    <test name="all-tests">
+        <packages>
+            <package name="com.deloitte.api.soap.Scripts"/>
+        </packages>
+    </test>
+</suite>

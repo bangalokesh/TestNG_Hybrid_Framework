@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="1" name="exampletestsuite_amazonsuite" parallel="instances">
+  <test name="Test1">
+    <classes>
+      <class name="com.deloitte.testng_hybrid_framework.exampletestsuite_amazonsuite.Amazon_FilterProduct_Test"/>
+    </classes>
+  </test> <!-- Test1 -->
+</suite> <!-- exampletestsuite_amazonsuite -->

@@ -1,0 +1,10 @@
+<s12:Envelope xmlns:s12='http://www.w3.org/2003/05/soap-envelope'>
+  <s12:Body>
+    <ns:add xmlns:ns='http://c.b.a'>
+<!-- optional -->
+      <ns:n1>?999?</ns:n1>
+<!-- optional -->
+      <ns:n2>?999?</ns:n2>
+    </ns:add>
+  </s12:Body>
+</s12:Envelope>

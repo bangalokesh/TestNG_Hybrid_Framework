@@ -25,22 +25,26 @@ public class XmlGenerator {
     public static ExtentTest test;
     public static Keywords app;
     public static XmlSuite suite;
+    public static List<XmlSuite> suites;
     private static final Logger logger = Logger.getLogger(XmlGenerator.class.getName());
     public static XmlGenerator obj = new XmlGenerator();
     public static String packageName;
     public static TestNG ts = new TestNG();
     public static Properties prop;
+    public static int suiteNumber = 1;
+    public static int testNumber = 1;
     
     public XmlGenerator(){
     	prop = new Properties();
 		try{
 			FileInputStream fs;
-			fs = new FileInputStream(System.getProperty("user.dir")+"//src//test//resources//project.properties");
+			fs = new FileInputStream(Constants.PROJECTPROPERTIES);
 			prop.load(fs);
 		}
 		catch (IOException e){
 			e.printStackTrace();
-			app.getGenericKeywords().logInfo("FATAL", "Not able to load property file");
+			app.getGenericKeywords().logInfo("FATAL", "XmlGenerator", "Not able to load property file");
+			logger.info("exception in property file");
 		}
     }
 
@@ -56,23 +60,106 @@ public class XmlGenerator {
                  String tsid = xls.getCellData(Constants.TESTSUIT_SHEET, Constants.TSID_COL, rnum);
                  RunMode = xls.getCellData(Constants.TESTSUIT_SHEET, Constants.RUNMODE_COL, rnum);
                  if (RunMode.equals("Y")) {
-                       files.add(System.getProperty("user.dir") + "\\src\\test\\resources\\" + tsid + ".xml");
+                       files.add(Constants.TESTNGXMLPATH + tsid + ".xml");
                  }
            }
            suite.setSuiteFiles(files);
            FileWriter writer = new FileWriter(
-                        new File(System.getProperty("user.dir") + "//src//test//resources//MasterSuite.xml"));
+                        new File(Constants.TESTNGXMLPATH + "MasterSuite.xml"));
            writer.write(suite.toXml());
            writer.flush();
            writer.close();
            System.out.println(new File("MyMasterSuite.xml").getAbsolutePath());
     	}catch(Exception exception){
     		exception.printStackTrace();
-    		app.getGenericKeywords().logInfo("FATAL", "Not able to create Master Suite");
+    		app.getGenericKeywords().logInfo("FATAL", "masterSuitGeneration", "Not able to create Master Suite");
     	}
     }
 
     // ==========Suit Files Generator=============================
+
+    public static void createAllTestNgSuiteXml() throws IOException {
+    	try{
+    	   suites = new ArrayList<XmlSuite>();
+    	   String suiteName = "";
+           File file = new File(Constants.SUITE_PATH);
+           File[] files = file.listFiles();
+           for (File f : files) {
+                 String fileName = f.getName();
+                 if (fileName.endsWith("xlsx")){
+                	 String[] fullFileName = (fileName.split(".xlsx"));
+                 	 suiteName = fullFileName[0];
+                 }
+                 else{
+                	 String[] fullFileName = (fileName.split(".xls"));
+                	 suiteName = fullFileName[0];
+                 }                
+                 Xls_Reader xls = new Xls_Reader(Constants.SUITE_PATH + fileName);
+                 allTestSuiteExecution(xls, suiteName, suites);
+           }
+           testBegin();
+    	}catch(Exception exception){
+    		exception.printStackTrace();
+    		app.getGenericKeywords().logInfo("FATAL", "createAllTestNgSuiteXml", "Not able to create TestNgSuite.xml");
+    	}
+    }
+    
+    public static void testBegin() {
+    	TestNG tng = new TestNG();
+    	tng.setXmlSuites(suites);
+    	tng.run();
+	}
+
+    // =======================================File Generation========================================
+
+    @SuppressWarnings("deprecation")
+	public static void allTestSuiteExecution(Xls_Reader xls, String SuiteName, List<XmlSuite> suites) throws IOException {
+    	try{
+           suite = new XmlSuite();
+           packageName = "com.deloitte.testng_hybrid_framework";
+           if (prop.getProperty("parallel").equals("Y")) {
+        	   suite.setParallel("tests");
+               String x = prop.getProperty("threadCount");
+               suite.setThreadCount(Integer.parseInt(x));
+           }
+           	String suiteNameNew = Constants.ALLTESTSUITE + suiteNumber;
+        	suite.setName(suiteNameNew);
+        	suite.setVerbose(1);
+        	   
+          	int rows = xls.getRowCount(Constants.TESTCASES_SHEET);
+          	for (int rnum = 2; rnum <= rows; rnum++) {
+          		String RunMode = "true";
+          		RunMode = xls.getCellData(Constants.TESTCASES_SHEET, Constants.RUNMODE_COL, rnum);
+                if (RunMode.equalsIgnoreCase("Y")) {
+                	ArrayList<XmlClass> classfiles = new ArrayList<XmlClass>();
+                	XmlTest test = new XmlTest(suite);
+                	test.setName("AllTest" + testNumber);
+                    classfiles.add(new XmlClass(packageName+"." + "AllTest" + ""));
+                    test.setClasses(classfiles);
+                    testNumber++;
+               }  
+          	}
+          	suites.add(suite);
+          	logger.info(suite.toXml());
+          	FileWriter writer = new FileWriter(
+            new File(Constants.TESTNGXMLPATH + suiteNameNew + ".xml"));
+          	writer.write(suite.toXml());
+          	writer.flush();
+          	writer.close();
+          	suiteNumber++;
+    	}catch(Exception exception){
+    		exception.printStackTrace();
+    		app.getGenericKeywords().logInfo("FATAL", "allTestSuiteExecution", "Not able to create SuiteFileGeneration");
+    	}
+    }
+
+    public static void main(String[] args) throws IOException {
+           Xls_Reader xls = new Xls_Reader(Constants.MASTERSUITE_XLS);
+           masterSuitGeneration(xls);
+           creatTestNgSuiteXml();
+    }
+    
+ // ==========Suite Files Generator=============================
 
     public static void creatTestNgSuiteXml() throws IOException {
     	try{
@@ -89,27 +176,28 @@ public class XmlGenerator {
                 	 String[] fullFileName = (fileName.split(".xls"));
                 	 suiteName = fullFileName[0];
                  }                 
-                 Xls_Reader xls = new Xls_Reader(Constants.SUITE_PATH + "\\" + fileName);
+                 Xls_Reader xls = new Xls_Reader(Constants.SUITE_PATH + fileName);
                  suitFileGeneration(xls, suiteName);
            }
     	}catch(Exception exception){
     		exception.printStackTrace();
-    		app.getGenericKeywords().logInfo("FATAL", "Not able to create TestNgSuite.xml");
+    		app.getGenericKeywords().logInfo("FATAL", "suitFileGeneration","Not able to create TestNgSuite.xml");
     	}
     }
-
-    // =======================================File Generation========================================
-
+    
     @SuppressWarnings("deprecation")
 	public static void suitFileGeneration(Xls_Reader xls, String SuiteName) throws IOException {
     	try{
            suite = new XmlSuite();
            packageName = obj.getClass().getPackage().getName();
            if (prop.getProperty("parallel").equals("Y")) {
-        	   suite.setParallel("classes");
+        	   //suite.setParallel("classes");
+        	   suite.setParallel("instances");
                String x = prop.getProperty("threadCount");
                suite.setThreadCount(Integer.parseInt(x));
-               suite.setName(SuiteName);
+           }
+           suite.setName(SuiteName);
+    	   suite.setVerbose(1);
           	   int rows = xls.getRowCount(Constants.TESTCASES_SHEET);
           	   for (int rnum = 2; rnum <= rows; rnum++) {
           		   String RunMode = "true";
@@ -125,41 +213,13 @@ public class XmlGenerator {
           	   }
           	   System.out.println(suite.toXml());
           	   FileWriter writer = new FileWriter(
-               new File(System.getProperty("user.dir") + "//src//test//resources//" + SuiteName + ".xml"));
+               new File(Constants.TESTNGXMLPATH  + SuiteName + ".xml"));
           	   writer.write(suite.toXml());
           	   writer.flush();
           	   writer.close();
-           } else {
-        	   suite.setName(SuiteName);
-        	   int rows = xls.getRowCount(Constants.TESTCASES_SHEET);
-        	   for (int rnum = 2; rnum <= rows; rnum++) {
-        		   String RunMode = "true";
-                   String tcid = xls.getCellData(Constants.TESTCASES_SHEET, Constants.TCID_COL, rnum);
-                   RunMode = xls.getCellData(Constants.TESTCASES_SHEET, Constants.RUNMODE_COL, rnum);
-                   if (RunMode.equals("Y")) {
-                	    XmlTest test = new XmlTest(suite);
-                	    test.setName("Test" +(rnum-1));
-                	   	ArrayList<XmlClass> classfiles = new ArrayList<XmlClass>();
-                        classfiles.add(new XmlClass(packageName+"."+SuiteName+"." + tcid + ""));
-                        test.setClasses(classfiles);
-                   }
-        	   }
-        	   System.out.println(suite.toXml());
-        	   FileWriter writer = new FileWriter(
-               new File(System.getProperty("user.dir") + "//src//test//resources//" + SuiteName + ".xml"));
-        	   writer.write(suite.toXml());
-        	   writer.flush();
-        	   writer.close();
-           }
     	}catch(Exception exception){
     		exception.printStackTrace();
-    		app.getGenericKeywords().logInfo("FATAL", "Not able to create SuiteFileGeneration");
+    		app.getGenericKeywords().logInfo("FATAL", "suitFileGeneration", "Not able to create SuiteFileGeneration");
     	}
-    }
-
-    public static void main(String[] args) throws IOException {
-           Xls_Reader xls = new Xls_Reader(Constants.MASTERSUITE_XLS);
-           masterSuitGeneration(xls);
-           creatTestNgSuiteXml();
     }
 }

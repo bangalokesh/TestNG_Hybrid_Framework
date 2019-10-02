@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><s12:Envelope xmlns:s12="http://www.w3.org/2003/05/soap-envelope">
+  <s12:Body>
+    <ns1:GetCurrentGoldPrice xmlns:ns1="http://freewebservicesx.com/">
+<!-- optional -->
+      <ns1:UserName>Value1</ns1:UserName>
+<!-- optional -->
+      <ns1:Password>Value2</ns1:Password>
+    </ns1:GetCurrentGoldPrice>
+  </s12:Body>
+</s12:Envelope>

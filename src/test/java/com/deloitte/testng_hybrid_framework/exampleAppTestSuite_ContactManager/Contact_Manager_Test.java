@@ -1,39 +1,40 @@
-package com.deloitte.testng_hybrid_framework.exampletestsuite_amazonsuite;
+package com.deloitte.testng_hybrid_framework.exampleAppTestSuite_ContactManager;
 
+import org.apache.log4j.Logger;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.Listeners;
+import org.testng.annotations.Test;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.Hashtable;
-
-import org.apache.log4j.Logger;
 import org.testng.SkipException;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeTest;
-import org.testng.annotations.Test;
 
 import com.deloitte.testng_hybrid_framework.BaseTest;
 import com.deloitte.testng_hybrid_framework.Keywords;
 import com.deloitte.testng_hybrid_framework.util.Constants;
 import com.deloitte.testng_hybrid_framework.util.DataUtil;
 import com.deloitte.testng_hybrid_framework.util.ExtentManager;
+import com.deloitte.testng_hybrid_framework.util.Listener;
 import com.deloitte.testng_hybrid_framework.util.Xls_Reader;
 import com.relevantcodes.extentreports.LogStatus;
-//@Listeners(Listener.class)
+@Listeners(Listener.class)
 
-public class Amazon_FilterProduct_Test extends BaseTest{
+public class Contact_Manager_Test extends BaseTest{
 	String RunName = ExtentManager.getRunName();
 	String CreatedBy = ExtentManager.getCreatedBy();
 	String skip = "";
-	private final Logger logger = Logger.getLogger(Amazon_FilterProduct_Test.class.getName());
+	private final Logger logger = Logger.getLogger(Contact_Manager_Test.class.getName());
 	
 	@BeforeTest
 	public void init(){
-		suitename= "exampletestsuite_amazonsuite";
-		testname = "Amazon_FilterProduct_Test";
-		xls = new Xls_Reader(Constants.AMAZONSUITE_XLS);
+		suitename= "exampleAppTestSuite_ContactManager";
+		testname = "Contact_Manager_Test";
+		xls = new Xls_Reader(Constants.CONTACTMGR_XLS);
 	}
 		 
 	 @Test(dataProvider="getData")
-	 public void AmazonSearchTest(Hashtable<String,String>data) throws Exception{
+	 public void ContactManagerTest(Hashtable<String,String>data) throws Exception{
 		 test = rep.startTest(testname);
 		 System.out.println(data.toString());
 		 if(DataUtil.isSkip(xls, testname)|| data.get("RunMode").equals("N")){
@@ -44,7 +45,7 @@ public class Amazon_FilterProduct_Test extends BaseTest{
 		 else {
 			 test.log(LogStatus.INFO, "Starting test = " + testname);
 			 app = new Keywords(test);
-			 app.executeKeywords(suitename,testname, xls, data);	
+			 app.executeKeywords(suitename, testname, xls, data);	
 		 }
 	 }
 	  

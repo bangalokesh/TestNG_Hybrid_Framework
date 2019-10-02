@@ -1,0 +1,24 @@
+{
+  "args": {
+    "caller": "3.0", 
+    "cn": "1.0", 
+    "locale": "2.0", 
+    "num": "123456.0", 
+    "sn": "C02G8416DRJM"
+  }, 
+  "data": "", 
+  "files": {}, 
+  "form": {}, 
+  "headers": {
+    "Accept": "application/json", 
+    "Charset": "utf-8", 
+    "Connection": "close", 
+    "Content-Length": "0", 
+    "Content-Type": "application/json", 
+    "Host": "httpbin.org", 
+    "User-Agent": "Mozilla/5.0"
+  }, 
+  "json": null, 
+  "origin": "73.130.210.6", 
+  "url": "http://httpbin.org/post?sn=C02G8416DRJM&cn=1.0&locale=2.0&caller=3.0&num=123456.0"
+}

@@ -20,11 +20,12 @@ public class Parallel_Execution {
 		try{
 			Xls_Reader xls = new Xls_Reader(Constants.MASTERSUITE_XLS);
 			XmlGenerator.masterSuitGeneration(xls);
-			XmlGenerator.creatTestNgSuiteXml();
+			XmlGenerator.createAllTestNgSuiteXml();
+			//XmlGenerator.creatTestNgSuiteXml();
 			TestNG testng = new TestNG(); 
 			Thread.sleep(20);
 			testng.setXmlSuites((List <XmlSuite>)(new Parser(System.getProperty("user.dir")+"//src//test//resources//MasterSuite.xml").parse()));		
-			testng.setSuiteThreadPoolSize(2);
+			//testng.setSuiteThreadPoolSize(2);
 			testng.run();
 		}catch(Exception e){
 			e.printStackTrace();

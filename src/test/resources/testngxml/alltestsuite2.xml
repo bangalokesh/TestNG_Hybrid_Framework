@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite thread-count="1" name="alltestsuite2" parallel="tests">
+  <test name="AllTest1">
+    <classes>
+      <class name="com.deloitte.testng_hybrid_framework.AllTest"/>
+    </classes>
+  </test> <!-- AllTest1 -->
+  <test name="AllTest2">
+    <classes>
+      <class name="com.deloitte.testng_hybrid_framework.AllTest"/>
+    </classes>
+  </test> <!-- AllTest2 -->
+</suite> <!-- alltestsuite2 -->

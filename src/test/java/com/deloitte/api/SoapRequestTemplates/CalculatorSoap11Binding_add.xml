@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><s11:Envelope xmlns:s11="http://schemas.xmlsoap.org/soap/envelope/">
+  <s11:Body>
+    <ns:add xmlns:ns="http://c.b.a">
+<!-- optional -->
+      <ns:n1>2.0</ns:n1>
+<!-- optional -->
+      <ns:n2>3.0</ns:n2>
+    </ns:add>
+  </s11:Body>
+</s11:Envelope>
